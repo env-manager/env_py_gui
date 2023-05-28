@@ -60,7 +60,7 @@ class EthernetScreen(ttk.Frame):
         setting_combobox_frame.rowconfigure(0, weight=1)
         setting_combobox_frame.columnconfigure(0, weight=1)
         
-        values = ['Manual', 'Auto']
+        values = ['Auto', 'Manual']
         style = ttk.Style()
         style.configure('W.TCombobox',arrowsize = 22)
         # cBox = ttk.Combobox(self, style='W.TCombobox')
@@ -87,7 +87,7 @@ class EthernetScreen(ttk.Frame):
 
         
 
-        self.IPv4_label = Label(main_part, text='IPv4', font=('Arial', 23), fg='white', bg='black')
+        self.IPv4_label = Label(main_part, text='', font=('Arial', 23), fg='white', bg='black')
         self.IPv4_label.grid(row=2, column=0, sticky="W", padx=20)
         self.IPv4_toggle_frame = Frame(main_part, bg='black')
         self.IPv4_toggle_frame.grid(row=3, column=0, sticky='W',padx=20)
@@ -95,7 +95,7 @@ class EthernetScreen(ttk.Frame):
         self.IPv4_toggle_frame.rowconfigure(0,weight=1)
         self.IPv4_toggle_frame.rowconfigure(1,weight=8)
         
-        self.IPv4_toggle = Button(self.IPv4_toggle_frame, image=self.off, highlightthickness=0,activebackground='black', bg='black',bd=0, border=None, borderwidth=0, command=None)        ##########################
+        self.IPv4_toggle = Button(self.IPv4_toggle_frame, image=self.nothing, highlightthickness=0,activebackground='black', bg='black',bd=0, border=None, borderwidth=0, command=None)        ##########################
         self.IPv4_toggle.grid(row=0, column=0, sticky='NEWS')
         
 ####################################################################################################################
@@ -119,14 +119,15 @@ class EthernetScreen(ttk.Frame):
     
     def change_state(self,event):           # combobox -> manual & auto separator
         # print(self.combobox.get())
-        state = self.combobox.get()
-        if state == 'Auto':
+        self.connection_status = self.combobox.get()
+        print(self.connection_status)
+        if self.connection_status == 'Auto':
             self.IPv4_label.config(text='')
             self.IPv4_toggle.config(image=self.nothing, command=None)
             print('Auto')
-        else:
-            self.IPv4_label.config(text='IPv4')
-            self.IPv4_toggle.config(image=self.off)
+        elif self.connection_status == 'Manual':
+            # self.IPv4_label.config(text='IPv4')
+            # self.IPv4_toggle.config(image=self.off)
             print('Manual')
     
     def get_image(self, frame, path, width, height, row, column,sticky, command=None):
