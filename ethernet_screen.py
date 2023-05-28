@@ -5,9 +5,10 @@ from PIL import Image, ImageTk
 
 
 class EthernetScreen(ttk.Frame):
-    def __init__(self, parent, controller, show_home):
+    def __init__(self, parent, controller, show_home, show_keyboard_screen):
         super().__init__(parent)
         self.controller = controller
+        self.show_keyboard_screen = show_keyboard_screen
         self.rowconfigure(0, weight=1)
         self.rowconfigure(1, weight=5)
         self.columnconfigure(0, weight=1)
@@ -36,6 +37,8 @@ class EthernetScreen(ttk.Frame):
             show_home()
         back_label.bind("<Button-1>", back_click)
 
+        
+        
         main_part = Frame(self, bg='black')
         main_part.grid(row=1, column=0, sticky='NEWS')
         main_part.columnconfigure(0, weight=1)
@@ -61,12 +64,13 @@ class EthernetScreen(ttk.Frame):
         style.configure('W.TCombobox',arrowsize = 22)
         # cBox = ttk.Combobox(self, style='W.TCombobox')
         # combobox = ttk.Combobox(setting_combobox_frame, width=60, height=30, values=values, state='readonly')
-        combobox = ttk.Combobox(setting_combobox_frame, width=60, height=20, values=values,style='W.TCombobox', state='readonly')
-        combobox.config(font=('Arial', 23))
-        combobox.option_add('*TCombobox*Listbox.font', ('Arial', 23))  # Set the font for the list items
-
-        combobox.set('Auto')
-        combobox.grid(row=0, column=0, sticky='NEWS')
+        self.combobox = ttk.Combobox(setting_combobox_frame, width=60, height=20, values=values,style='W.TCombobox', state='readonly')
+        self.combobox.config(font=('Arial', 23))
+        self.combobox.option_add('*TCombobox*Listbox.font', ('Arial', 23))  # Set the font for the list items
+        self.combobox.bind("<<ComboboxSelected>>", self.print_state)
+        
+        self.combobox.set('Auto')
+        self.combobox.grid(row=0, column=0, sticky='NEWS')
 ####################################################################################################################
         on_img = Image.open('/home/orangepi/env_sensor/env_py_gui/img/parts/toggle_on.png')
         resized_on_img = on_img.resize((65,37), Image.ANTIALIAS)
@@ -105,7 +109,8 @@ class EthernetScreen(ttk.Frame):
         complete_label.grid(row=0, column=0, sticky='E')
         
         
-    
+    def print_state(self):
+        print(self.combobox.get())
     
     def get_image(self, frame, path, width, height, row, column,sticky, command=None):
         img = Image.open(path)
