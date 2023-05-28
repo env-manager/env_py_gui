@@ -10,7 +10,8 @@ class EthernetScreen(ttk.Frame):
         self.controller = controller
         self.show_keyboard_screen = show_keyboard_screen
         self.rowconfigure(0, weight=1)
-        self.rowconfigure(1, weight=5)
+        self.rowconfigure(1, weight=5)          # <- 얘가 문제이구나
+        
         self.columnconfigure(0, weight=1)
         status_part = tk.Frame(self, bg='black')
         status_part.grid(row=0, column=0, sticky='NEWS')
@@ -46,9 +47,9 @@ class EthernetScreen(ttk.Frame):
         main_part.rowconfigure(1,weight=1)
         main_part.rowconfigure(2,weight=1)
         main_part.rowconfigure(3,weight=1)
-        main_part.rowconfigure(4,weight=1)
-        main_part.rowconfigure(5,weight=1)
-        main_part.rowconfigure(6,weight=2)
+        # main_part.rowconfigure(4,weight=1)
+        # main_part.rowconfigure(5,weight=1)
+        main_part.rowconfigure(4,weight=4)
         
 ####################################################################################################################        
         setting_edit_label = Label(main_part, text='IP 설정 편집', font=('Arial', 23), fg='white', bg='black')
@@ -67,7 +68,7 @@ class EthernetScreen(ttk.Frame):
         self.combobox = ttk.Combobox(setting_combobox_frame, width=60, height=20, values=values,style='W.TCombobox', state='readonly')
         self.combobox.config(font=('Arial', 23))
         self.combobox.option_add('*TCombobox*Listbox.font', ('Arial', 23))  # Set the font for the list items
-        self.combobox.bind("<<ComboboxSelected>>", self.print_state)
+        self.combobox.bind("<<ComboboxSelected>>", self.change_state)
         
         self.combobox.set('Auto')
         self.combobox.grid(row=0, column=0, sticky='NEWS')
@@ -78,39 +79,55 @@ class EthernetScreen(ttk.Frame):
         off_img = Image.open('/home/orangepi/env_sensor/env_py_gui/img/parts/toggle_off.png')
         resized_off_img = off_img.resize((65,37), Image.ANTIALIAS)
         self.off = ImageTk.PhotoImage(resized_off_img)
-
-        IPv4_label = Label(main_part, text='IPv4', font=('Arial', 23), fg='white', bg='black')
-        IPv4_label.grid(row=2, column=0, sticky="W", padx=20)
-        IPv4_toggle_frame = Frame(main_part, bg='black')
-        IPv4_toggle_frame.grid(row=3, column=0, sticky='W',padx=20)
-        IPv4_toggle_frame.columnconfigure(0, weight=1)
-        IPv4_toggle_frame.rowconfigure(0,weight=1)
-        IPv4_toggle_frame.rowconfigure(1,weight=8)
         
-        self.IPv4_toggle = Button(IPv4_toggle_frame, image=self.off, highlightthickness=0,activebackground='black', bg='black',bd=0, border=None, borderwidth=0, command=None)        ##########################
+        nothing_img = Image.open('/home/orangepi/env_sensor/env_py_gui/img/extra/nothing.png')
+        resized_nothing_img = nothing_img.resize((65, 37), Image.ANTIALIAS)
+        self.nothing = ImageTk.PhotoImage(resized_nothing_img)
+
+
+        
+
+        self.IPv4_label = Label(main_part, text='IPv4', font=('Arial', 23), fg='white', bg='black')
+        self.IPv4_label.grid(row=2, column=0, sticky="W", padx=20)
+        self.IPv4_toggle_frame = Frame(main_part, bg='black')
+        self.IPv4_toggle_frame.grid(row=3, column=0, sticky='W',padx=20)
+        self.IPv4_toggle_frame.columnconfigure(0, weight=1)
+        self.IPv4_toggle_frame.rowconfigure(0,weight=1)
+        self.IPv4_toggle_frame.rowconfigure(1,weight=8)
+        
+        self.IPv4_toggle = Button(self.IPv4_toggle_frame, image=self.off, highlightthickness=0,activebackground='black', bg='black',bd=0, border=None, borderwidth=0, command=None)        ##########################
         self.IPv4_toggle.grid(row=0, column=0, sticky='NEWS')
         
 ####################################################################################################################
-        IPv6_label = Label(main_part, text='IPv6', font=('Arial', 23), fg='white', bg='black')
-        IPv6_label.grid(row=4, column=0, sticky="W", padx=20)
-        IPv6_toggle_frame = Frame(main_part, bg='black')
-        IPv6_toggle_frame.grid(row=5, column=0, sticky='W',padx=20)
+        # IPv6_label = Label(main_part, text='IPv6', font=('Arial', 23), fg='white', bg='black')
+        # IPv6_label.grid(row=4, column=0, sticky="W", padx=20)
+        # IPv6_toggle_frame = Frame(main_part, bg='black')
+        # IPv6_toggle_frame.grid(row=5, column=0, sticky='W',padx=20)
 
-        self.IPv6_toggle = Button(IPv6_toggle_frame, image=self.off, highlightthickness=0,activebackground='black', bg='black',bd=0, border=None, borderwidth=0, command=None)        ##########################
-        self.IPv6_toggle.grid(row=0, column=0, sticky='NEWS')
+        # self.IPv6_toggle = Button(IPv6_toggle_frame, image=self.off, highlightthickness=0,activebackground='black', bg='black',bd=0, border=None, borderwidth=0, command=None)        ##########################
+        # self.IPv6_toggle.grid(row=0, column=0, sticky='NEWS')
         
 ####################################################################################################################        
         
         complete_frame = Frame(main_part, bg='black')
-        complete_frame.grid(row=6, column=0, sticky='NEWS')
+        complete_frame.grid(row=4, column=0, sticky='NEWS')
         complete_frame.rowconfigure(0, weight=1)
         complete_frame.columnconfigure(0, weight=1)
         complete_label = Label(complete_frame, text='Complete',font=('Arial', 26), bd=None, borderwidth=0, border=0, bg='black', fg='white')
         complete_label.grid(row=0, column=0, sticky='E')
         
-        
-    def print_state(self):
-        print(self.combobox.get())
+    
+    def change_state(self,event):           # combobox -> manual & auto separator
+        # print(self.combobox.get())
+        state = self.combobox.get()
+        if state == 'Auto':
+            self.IPv4_label.config(text='')
+            self.IPv4_toggle.config(image=self.nothing, command=None)
+            print('Auto')
+        else:
+            self.IPv4_label.config(text='IPv4')
+            self.IPv4_toggle.config(image=self.off)
+            print('Manual')
     
     def get_image(self, frame, path, width, height, row, column,sticky, command=None):
         img = Image.open(path)
