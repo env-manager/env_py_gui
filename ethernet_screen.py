@@ -5,10 +5,10 @@ from PIL import Image, ImageTk
 
 
 class EthernetScreen(ttk.Frame):
-    def __init__(self, parent, controller, show_home, show_keyboard_screen):
+    def __init__(self, parent, controller, show_home, show_ipv4_screen):
         super().__init__(parent)
         self.controller = controller
-        self.show_keyboard_screen = show_keyboard_screen
+        self.show_ipv4_screen = show_ipv4_screen
         self.rowconfigure(0, weight=1)
         self.rowconfigure(1, weight=5)          # <- 얘가 문제이구나
         
@@ -95,7 +95,7 @@ class EthernetScreen(ttk.Frame):
         self.IPv4_toggle_frame.rowconfigure(0,weight=1)
         self.IPv4_toggle_frame.rowconfigure(1,weight=8)
         
-        self.IPv4_toggle = Button(self.IPv4_toggle_frame, image=self.nothing, highlightthickness=0,activebackground='black', bg='black',bd=0, border=None, borderwidth=0, command=None)        ##########################
+        self.IPv4_toggle = Button(self.IPv4_toggle_frame, image=self.nothing, highlightthickness=0,activebackground='black', bg='black',bd=0, border=None, borderwidth=0, command=self.change_ipv4_mode)
         self.IPv4_toggle.grid(row=0, column=0, sticky='NEWS')
         
 ####################################################################################################################
@@ -123,11 +123,11 @@ class EthernetScreen(ttk.Frame):
         print(self.connection_status)
         if self.connection_status == 'Auto':
             self.IPv4_label.config(text='')
-            self.IPv4_toggle.config(image=self.nothing, command=None)
+            self.IPv4_toggle.config(image=self.nothing, command=self.ipv4_none)
             print('Auto')
         elif self.connection_status == 'Manual':
-            # self.IPv4_label.config(text='IPv4')
-            # self.IPv4_toggle.config(image=self.off)
+            self.IPv4_label.config(text='IPv4')
+            self.IPv4_toggle.config(image=self.off, command= self.change_ipv4_mode)
             print('Manual')
     
     def get_image(self, frame, path, width, height, row, column,sticky, command=None):
@@ -140,3 +140,10 @@ class EthernetScreen(ttk.Frame):
         def local_click(event):
             command()
         img_label.bind("<Button-1>", local_click)
+
+    def ipv4_none(self):
+        pass
+    def change_ipv4_mode(self):
+        self.show_ipv4_screen()
+        
+        # print('ipv4_mode changed')

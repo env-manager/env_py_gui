@@ -9,6 +9,7 @@ from info_screen import InfoScreen
 from keyboard_screen import KeyboardSreen
 from ethernet_screen import EthernetScreen
 from mac_address import get_mac_address
+from ipv4_screen import Ipv4Screen
 
 import sys
 
@@ -32,7 +33,7 @@ class EnvSensor(tk.Tk):
         print('- test -')
 
         self.device_number = DEVICE_NUM
-        self.uart_data_view = False
+        self.uart_data_view = UART_DATA_VIEW
 
         self.TVOC = tk.DoubleVar(value=0)
         self.CO2 = tk.DoubleVar(value=0)
@@ -141,6 +142,11 @@ class EnvSensor(tk.Tk):
         self.keyboard_frame.grid(row=0, column=0, sticky='NEWS')
         ############################################################################################################################################
 
+        # For Keyboard Screen
+        self.ipv4_frame = Ipv4Screen(container, self,  lambda:self.show_frame(EthernetScreen))
+        self.ipv4_frame.grid(row=0, column=0, sticky='NEWS')
+        ############################################################################################################################################
+
         
         
         self.frames[Home] = self.home_frame
@@ -151,6 +157,7 @@ class EnvSensor(tk.Tk):
         self.frames[InfoScreen] = self.info_frame
         self.frames[EthernetScreen] = self.ethernet_frame
         self.frames[KeyboardSreen] = self.keyboard_frame
+        self.frames[EthernetScreen] = self.ipv4_frame
         
         # First Screenu
         self.show_frame(Home)

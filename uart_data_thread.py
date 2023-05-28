@@ -62,6 +62,8 @@ class UartDataThread(Thread):
     def run(self):
         while 1:
             self.lock.acquire()
+            if len(self.serial_str) == 0:
+                continue
             self.serial_str = str(self.serialport.readline())[2:-5]
             
             if self.serial_str == '':                                                                   # 아무것도 오고 있지 않을 때            => 고쳐야 되겠다...
@@ -76,7 +78,6 @@ class UartDataThread(Thread):
                 
             else:
                 # print('터치가 되든 안되든 이렇게')
-                
                 
                 serial_list = self.serial_str.split(',')
                 if self.view:
