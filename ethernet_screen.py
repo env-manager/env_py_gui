@@ -83,7 +83,7 @@ class EthernetScreen(ttk.Frame):
         IPv4_toggle_frame.rowconfigure(0,weight=1)
         IPv4_toggle_frame.rowconfigure(1,weight=8)
         
-        self.IPv4_toggle = Button(IPv4_toggle_frame, image=self.off, activebackground='black', bg='black',bd=0, border=None, borderwidth=0, command=None)        ##########################
+        self.IPv4_toggle = Button(IPv4_toggle_frame, image=self.off, highlightthickness=0,activebackground='black', bg='black',bd=0, border=None, borderwidth=0, command=None)        ##########################
         self.IPv4_toggle.grid(row=0, column=0, sticky='NEWS')
         
 ####################################################################################################################
@@ -92,7 +92,7 @@ class EthernetScreen(ttk.Frame):
         IPv6_toggle_frame = Frame(main_part, bg='black')
         IPv6_toggle_frame.grid(row=5, column=0, sticky='W',padx=20)
 
-        self.IPv6_toggle = Button(IPv6_toggle_frame, image=self.off, activebackground='black', bg='black',bd=0, border=None, borderwidth=0, command=None)        ##########################
+        self.IPv6_toggle = Button(IPv6_toggle_frame, image=self.off, highlightthickness=0,activebackground='black', bg='black',bd=0, border=None, borderwidth=0, command=None)        ##########################
         self.IPv6_toggle.grid(row=0, column=0, sticky='NEWS')
         
 ####################################################################################################################        

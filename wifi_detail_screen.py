@@ -71,7 +71,7 @@ class WifiDetailScreen(ttk.Frame):
             show_keyboard_screen()
 
         self.password_entry = Entry(self.pw_core_frame, highlightthickness=2.4, bd=2.4, bg='white', fg='black', relief=FLAT, show='*', font=('Arial', 16))
-        self.password_entry.grid(row=0, column=0)
+        self.password_entry.grid(row=0, column=0, sticky='WNS')
         self.password_entry.config(show='*')
         self.password_entry.bind('<Button-1>', entry_click)
         show_img = Image.open('/home/orangepi/env_sensor/env_py_gui/img/parts/visible_on.png')
@@ -84,8 +84,8 @@ class WifiDetailScreen(ttk.Frame):
         # self.show_image = ImageTk.PhotoImage(file='/home/orangepi/env_sensor/env_py_gui/img/parts/visible_on.png')
         # self.hide_image = ImageTk.PhotoImage(file='/home/orangepi/env_sensor/env_py_gui/img/parts/visible_off.png')
         
-        self.show_button = Button(self.pw_core_frame, image=self.show_image, command=self.show, relief=FLAT, activebackground='black', bd=0, background='black')
-        self.show_button.grid(row=0, column=1)
+        self.show_button = Button(self.pw_core_frame, image=self.hide_image, highlightthickness=0,command=self.show, relief=FLAT, activebackground='black', bd=0, background='black')
+        self.show_button.grid(row=0, column=1, padx=20)
         
         self.auto_connection_frame = Frame(pw_part, bg='black')
         self.auto_connection_frame.grid(row=2, column=0)
@@ -93,19 +93,19 @@ class WifiDetailScreen(ttk.Frame):
         self.auto_connection_frame.columnconfigure(0, weight=6)
         self.auto_connection_frame.columnconfigure(1, weight=1)
 
-        Label(self.auto_connection_frame, text='자동으로 연결', fg='white', bg='black',font=('Arial',30)).grid(row=0, column=0)
+        Label(self.auto_connection_frame, text='자동으로 연결', fg='white', bg='black',font=('Arial',30)).grid(row=0, column=0, sticky='WNS')
             
         on_img = Image.open('/home/orangepi/env_sensor/env_py_gui/img/parts/toggle_on.png')
-        resized_on_img = on_img.resize((65,55), Image.ANTIALIAS)
+        resized_on_img = on_img.resize((45,35), Image.ANTIALIAS)
         self.on = ImageTk.PhotoImage(resized_on_img)
         off_img = Image.open('/home/orangepi/env_sensor/env_py_gui/img/parts/toggle_off.png')
-        resized_off_img = off_img.resize((65,55), Image.ANTIALIAS)
+        resized_off_img = off_img.resize((45,35), Image.ANTIALIAS)
         self.off = ImageTk.PhotoImage(resized_off_img)
         
         # self.on = PhotoImage(file='/home/orangepi/env_sensor/env_py_gui/img/parts/toggle_on.png')
         # self.off = PhotoImage(file='/home/orangepi/env_sensor/env_py_gui/img/parts/toggle_off.png')
-        self.auto_btn = Button(self.auto_connection_frame, image=self.on, bd=0, command=self.switch)
-        self.auto_btn.grid(row=0, column=1)
+        self.auto_btn = Button(self.auto_connection_frame, image=self.on, bd=0, command=self.switch, highlightthickness=0,activebackground='black', bg='black', border=0, borderwidth=0)
+        self.auto_btn.grid(row=0, column=1, padx=20)
 ############################################################################################################################################################################################################################################
 ############################################################################################################################################################################################################################################
 ############################################################################################################################################################################################################################################
@@ -131,15 +131,15 @@ class WifiDetailScreen(ttk.Frame):
         
     def show(self):
         # print(self.pw_visible_state)
-        if self.pw_visible_state:
+        if self.pw_visible_state:           # visible 상태일 때
             self.show_button.config(image=self.hide_image)
             self.password_entry.config(show='*')
-            self.pw_visible_state = not self.pw_visible_state
+            self.pw_visible_state = False
             
         else:
             self.show_button.config(image=self.show_image)
             self.password_entry.config(show='')
-            self.pw_visible_state = not self.pw_visible_state
+            self.pw_visible_state = True
     
         
         
@@ -166,5 +166,5 @@ class WifiDetailScreen(ttk.Frame):
         img_label.bind("<Button-1>", local_click)
     
     def back_to_wifi_list_screen(self):
-        self.password_entry = ''
+        self.password_entry.delete(0, END)
         self.show_wifi_list_screen()
