@@ -867,57 +867,110 @@ class Home(ttk.Frame):
         if not check_value1.startswith('PY') and not check_value2.startswith('PY') and not check_value3.startswith('PY'):                    # 원래 이렇게 처리하는게 아닌데.. 시간이 없어서 나중에 고칠 것...
                 
                 self.temperature = float(self.controller.temperature)
-                temperature_2f = "{:.2f}".format(self.temperature)
-                self.temp_label.config(text=temperature_2f)
+                if self.temperature == -100:
+                        self.temp_label.config(text='...')
+                else:
+                        temperature_2f = "{:.2f}".format(self.temperature)
+                        self.temp_label.config(text=temperature_2f)
                 self.humidity = float(self.controller.humidity)
-                humidity_2f = "{:.2f}".format(self.humidity)
-                self.humidity_label.config(text=humidity_2f)
+                if self.humidity < 0:
+                        self.humidity_label.config(text='...')
+                else:
+                        humidity_2f = "{:.2f}".format(self.humidity)
+                        self.humidity_label.config(text=humidity_2f)
                 # 밑에 마저 해야한다.
                 self.TVOC = self.controller.TVOC
-                self.TVOC_label.config(text=self.TVOC)
+                print('self.TVOC', end='')
+                print(self.TVOC)
+                print(type(self.TVOC))
+                if self.TVOC < 0:
+                        self.TVOC_label.config(text='...')        
+                else:
+                        self.TVOC_label.config(text=self.TVOC)
                 
                 self.CO2 = self.controller.CO2
-                self.CO2_label.config(text=self.CO2)
+                if self.CO2 < 0:
+                        self.CO2_label.config(text='...')        
+                else:
+                        self.CO2_label.config(text=self.CO2)
                 
                 self.PM1 = self.controller.PM1
-                self.PM1_label.config(text=self.PM1)
+                if self.PM1 < 0:
+                        self.PM1_label.config(text='...')        
+                else:
+                        self.PM1_label.config(text=self.PM1)
                 
                 self.PM25 = self.controller.PM25
-                self.PM25_label.config(text=self.PM25)
+                if self.PM25 < 0:
+                        self.PM25_label.config(text='...')        
+                else:
+                        self.PM25_label.config(text=self.PM25)
                 
                 self.PM10 = self.controller.PM10
-                self.PM10_label.config(text=self.PM10)
+                if self.PM10 < 0:
+                        self.PM10_label.config(text='...')        
+                else:
+                        self.PM10_label.config(text=self.PM10)
                 
                 self.CH2O = self.controller.CH2O
-                self.CH2O_label.config(text=self.CH2O)
+                if self.CH2O < 0:
+                        self.CH2O_label.config(text='...')        
+                else:
+                        self.CH2O_label.config(text=self.CH2O)
                 
                 self.Sm = self.controller.Sm
-                self.Sm_label.config(text=self.Sm)
+                if self.Sm < 0:
+                        self.Sm_label.config(text='...')        
+                else:
+                        self.Sm_label.config(text=self.Sm)
                 
                 self.NH3 = self.controller.NH3
-                self.NH3_label.config(text=self.NH3)
+                if self.NH3 < 0:
+                        self.NH3_label.config(text='...')        
+                else:
+                        self.NH3_label.config(text=self.NH3)
                 
                 self.CO = self.controller.CO
-                self.CO_label.config(text=self.CO)
+                if self.CO < 0:
+                        self.CO_label.config(text='...')        
+                else:
+                        self.CO_label.config(text=self.CO)
                 
                 self.NO2 = self.controller.NO2
-                self.NO2_label.config(text=self.NO2)
+                if self.NO2 < 0:
+                        self.NO2_label.config(text='...')        
+                else:
+                        self.NO2_label.config(text=self.NO2)
                 
                 self.H2S = self.controller.H2S
-                self.H2S_label.config(text=self.H2S)
+                if self.H2S < 0:
+                        self.H2S_label.config(text='...')        
+                else:
+                        self.H2S_label.config(text=self.H2S)
                 
                 self.LIGHT = self.controller.LIGHT
-                self.Light_label.config(text=self.LIGHT)
+                if self.LIGHT < 0:
+                        self.Light_label.config(text='...')        
+                else:
+                        self.Light_label.config(text=self.LIGHT)
                 
                 self.SOUND = self.controller.SOUND
-                self.Sound_label.config(text=self.SOUND)
+                if self.SOUND < 0:
+                        self.Sound_label.config(text='...')        
+                else:
+                        self.Sound_label.config(text=self.SOUND)
                 
                 self.Rn = self.controller.Rn
-
-                self.Rn_label.config(text=self.Rn)
+                if self.Rn < 0:
+                        self.Rn_label.config(text='...')        
+                else:
+                        self.Rn_label.config(text=self.Rn)
                 
                 self.O3 = self.controller.O3
-                self.O3_label.config(text=self.O3)
+                if self.O3 < 0:
+                        self.O3_label.config(text='...')        
+                else:
+                        self.O3_label.config(text=self.O3)
                 
                 self.change_text_color(self.controller.TVOC_level, self.TVOC_label)
                 self.change_text_color(self.controller.CO2_level, self.CO2_label)

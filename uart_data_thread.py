@@ -53,7 +53,25 @@ class UartDataThread(Thread):
         self.SOUND_level = 0
         self.Rn_level = 0
         self.O3_level = 0
-    
+
+        self.controller.TVOC = -1
+        self.controller.CO2 = -1
+        self.controller.PM1 = -1
+        self.controller.PM25 = -1
+        self.controller.PM10 = -1
+        self.controller.CH2O = -1
+        self.controller.Sm = -1
+        self.controller.NH3 = -1
+        self.controller.CO = -1
+        self.controller.NO2 = -1
+        self.controller.H2S = -1
+        self.controller.LIGHT = -1
+        self.controller.SOUND = -1
+        self.controller.Rn = -1
+        self.controller.O3 = -1
+        self.controller.temperature = -100
+        self.controller.humidity = -1
+        
     # def show_data(self):
     #     print(self.TVOC)
     #     print(self.CO2)
@@ -62,8 +80,9 @@ class UartDataThread(Thread):
     def run(self):
         while 1:
             self.lock.acquire()
-            if len(self.serial_str) == 0:
-                continue
+            # if len(self.serial_str) == 0:
+            #     print('len(serial_str) == 0')
+            #     continue
             self.serial_str = str(self.serialport.readline())[2:-5]
             
             if self.serial_str == '':                                                                   # 아무것도 오고 있지 않을 때            => 고쳐야 되겠다...
@@ -127,23 +146,23 @@ class UartDataThread(Thread):
                         
                         # if self.x ==0 and self.y ==0:       # 터치를 하고 있지 않을때
                         
-                        self.controller.TVOC = serial_list[2]
-                        self.controller.CO2 = serial_list[3]
-                        self.controller.PM1 = serial_list[4]
-                        self.controller.PM25 = serial_list[5]
-                        self.controller.PM10 = serial_list[6]
-                        self.controller.CH2O = serial_list[7]
-                        self.controller.Sm = serial_list[8]
-                        self.controller.NH3 = serial_list[9]
-                        self.controller.CO = serial_list[10]
-                        self.controller.NO2 = serial_list[11]
-                        self.controller.H2S = serial_list[12]
-                        self.controller.LIGHT = serial_list[13]
-                        self.controller.SOUND = serial_list[14]
-                        self.controller.Rn = serial_list[15]
-                        self.controller.O3 = serial_list[16]
-                        self.controller.temperature = serial_list[17]
-                        self.controller.humidity = serial_list[18]
+                        self.controller.TVOC = float(serial_list[2])
+                        self.controller.CO2 = float(serial_list[3])
+                        self.controller.PM1 = float(serial_list[4])
+                        self.controller.PM25 = float(serial_list[5])
+                        self.controller.PM10 = float(serial_list[6])
+                        self.controller.CH2O = float(serial_list[7])
+                        self.controller.Sm = float(serial_list[8])
+                        self.controller.NH3 = float(serial_list[9])
+                        self.controller.CO = float(serial_list[10])
+                        self.controller.NO2 = float(serial_list[11])
+                        self.controller.H2S = float(serial_list[12])
+                        self.controller.LIGHT = float(serial_list[13])
+                        self.controller.SOUND = float(serial_list[14])
+                        self.controller.Rn = float(serial_list[15])
+                        self.controller.O3 = float(serial_list[16])
+                        self.controller.temperature = float(serial_list[17])
+                        self.controller.humidity = float(serial_list[18])
                         
                         
                         
