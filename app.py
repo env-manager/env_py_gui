@@ -133,7 +133,7 @@ class EnvSensor(tk.Tk):
         ############################################################################################################################################
 
         # For Ethernet Screen
-        self.ethernet_frame = EthernetScreen(container, self, lambda:self.show_frame(Home), lambda: self.show_frame(KeyboardSreen))
+        self.ethernet_frame = EthernetScreen(container, self, lambda:self.show_frame(Home), lambda: self.show_frame(Ipv4Screen))
         self.ethernet_frame.grid(row=0, column=0, sticky='NEWS')
         ############################################################################################################################################
         
@@ -157,7 +157,7 @@ class EnvSensor(tk.Tk):
         self.frames[InfoScreen] = self.info_frame
         self.frames[EthernetScreen] = self.ethernet_frame
         self.frames[KeyboardSreen] = self.keyboard_frame
-        self.frames[EthernetScreen] = self.ipv4_frame
+        self.frames[Ipv4Screen] = self.ipv4_frame
         
         # First Screenu
         self.show_frame(Home)
