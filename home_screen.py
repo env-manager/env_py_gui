@@ -778,7 +778,6 @@ class Home(ttk.Frame):
                         self.wifi_button.config(image=self.photo_ethernet_connection_status, command=self.show_ethernet)
                         self.wifi_button.image = self.photo_ethernet_connection_status
 
-                        
                 self.pre_lan_state = 'ethernet'
         elif connection_state[0] == False and connection_state[1] == True:              # wifi 연결
                 self.lan_state = 'wlan'

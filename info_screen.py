@@ -4,7 +4,7 @@ from tkinter import ttk
 from PIL import Image,ImageTk
 import os, sys
 import subprocess
-
+from time import sleep
 # import os, sys
 
 def execute_cmd(cmd):
@@ -112,6 +112,7 @@ class InfoScreen(ttk.Frame):
         try:
             subprocess.check_output(["git", "clone", repo_url, destination_folder], cwd='/tmp')
             print('Process well done')
+            sleep(5)
             execute_cmd('reboot')
         except subprocess.CalledProcessError as e:
             print(e)

@@ -4,6 +4,7 @@ from tkinter import *
 from PIL import Image, ImageTk
 import wifi_func as wf
 import subprocess
+from time import sleep
 # 와이파이 하나 클릭하면 비번치고...등등등 하는 화면
 
 class WifiDetailScreen(ttk.Frame):
@@ -11,6 +12,7 @@ class WifiDetailScreen(ttk.Frame):
         super().__init__(parent)
         
         self.controller = controller
+        self.show_wifi_list_screen = show_wifi_list_screen
         self.show_keyboard_screen = show_keyboard_screen
         self.pw_visible_state = False            # True - Visible
 
@@ -43,16 +45,19 @@ class WifiDetailScreen(ttk.Frame):
         back_button_part.rowconfigure(0, weight=1)
         back_button_part.columnconfigure(0, weight=1)
         back_button_part.columnconfigure(1, weight=1)
-        back_button_part.bind("<Button-1>", show_wifi_list_screen)
-        self.get_image(back_button_part, '/home/orangepi/env_sensor/env_py_gui/img/parts/back_button.png', 30, 30,0, 0, 'E', command=show_wifi_list_screen)
+        # back_button_part.bind("<Button-1>", show_wifi_list_screen)
+        back_button_part.bind("<Button-1>", self.back_to_wifi_list_screen)
+        # self.get_image(back_button_part, '/home/orangepi/env_sensor/env_py_gui/img/parts/back_button.png', 30, 30,0, 0, 'E', command=show_wifi_list_screen)
+        self.get_image(back_button_part, '/home/orangepi/env_sensor/env_py_gui/img/parts/back_button.png', 30, 30,0, 0, 'E', command=self.back_to_wifi_list_screen)
         back_label = Label(back_button_part, text='BACK', font=('Arial', 30), fg='white', bg='black', pady=3)
         back_label.grid(row=0, column=1, sticky='NW')
         # 나중에 정리....
 
         def back_click(event):
-            show_wifi_list_screen()
+            # show_wifi_list_screen()
+            self.back_to_wifi_list_screen()
         back_label.bind("<Button-1>", back_click)
-        pw_label = Label(pw_part, text='비밀번호', font=('Arial', 30))
+        pw_label = Label(pw_part, text='비밀번호', fg='white', bg='black', font=('Arial', 30))
         pw_label.grid(row=0, column=0, sticky="W")
 
         self.pw_core_frame = Frame(pw_part, bg='black')
@@ -88,7 +93,7 @@ class WifiDetailScreen(ttk.Frame):
         self.auto_connection_frame.columnconfigure(0, weight=6)
         self.auto_connection_frame.columnconfigure(1, weight=1)
 
-        Label(self.auto_connection_frame, text='자동으로 연결', font=('Arial',30)).grid(row=0, column=0)
+        Label(self.auto_connection_frame, text='자동으로 연결', fg='white', bg='black',font=('Arial',30)).grid(row=0, column=0)
             
         on_img = Image.open('/home/orangepi/env_sensor/env_py_gui/img/parts/toggle_on.png')
         resized_on_img = on_img.resize((65,55), Image.ANTIALIAS)
@@ -111,6 +116,9 @@ class WifiDetailScreen(ttk.Frame):
         subprocess.check_output('nmcli dev wifi list', shell=True)
         cmd = 'nmcli device wifi connect {} password {}'.format(self.controller.wifi_ssid, self.password_entry.get())
         subprocess.call(cmd, shell=True)
+        sleep(1)
+        self.show_wifi_list_screen()
+        
 ##################################################################################################################
     def switch(self):
         if self.pw_visible_state:
@@ -157,4 +165,6 @@ class WifiDetailScreen(ttk.Frame):
             command()
         img_label.bind("<Button-1>", local_click)
     
-    
+    def back_to_wifi_list_screen(self):
+        self.password_entry = ''
+        self.show_wifi_list_screen()
